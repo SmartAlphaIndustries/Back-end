@@ -26,6 +26,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@jamesgopsill/octoprint-client": "^0.3.0",
+    "@jamesgopsill/ultimaker-client": "^0.11.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^9.0.0",
@@ -33,19 +35,24 @@
     "@nestjs/platform-express": "^9.4.3",
     "@nestjs/swagger": "^7.0.12",
     "@prisma/client": "^4.16.2",
+    "alexa-verifier-middleware": "^2.0.2",
+    "ask-cli": "^2.30.4",
+    "aws-sdk": "^2.1416.0",
     "child_process": "^1.0.2",
     "class-validator": "^0.13.0",
     "class-validator-jsonschema": "^3.1.1",
-    "execa": "^7.1.1",
     "jest-mock-extended": "^3.0.4",
+    "jira-client": "^8.2.2",
     "mongodb": "^5.7.0",
     "nestjs-pino": "^3.1.1",
+    "openai": "^3.3.0",
     "pino": "^7.11.0",
     "pino-http": "^7.1.0",
     "pino-pretty": "^7.6.1",
     "prisma": "^4.16.2",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.2.0"
+    "rxjs": "^7.2.0",
+    "twilio": "^4.14.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",

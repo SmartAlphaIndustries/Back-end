@@ -1,38 +1,30 @@
-import { SchemaObject } from '@nestjs/swagger/dist/interfaces/open-api-spec.interface';
-import { ERRORS, METHODS } from '../commons/commons.types';
-
-export interface IToken {
-  iss: string;
-  sub: string;
-  aud: string;
-  iat: number;
-  exp: number;
-  azp: string;
-  gty: string;
-  permissions: string[];
-  'neodaten/roles': string[];
-  'neodaten/email': string;
+export enum ERRORS {
+  unauthorized = 'unauthorized',
+  unavailable = 'unavailable',
+  unprocessable = 'unprocessable',
+  notfound = 'notfound',
+  forbidden = 'forbidden',
+  badRequest = 'badRequest',
+  notacceptable = 'notacceptable',
+  notfoundname = 'notfoundname',
 }
 
-declare global {
-  // eslint-disable-next-line @typescript-eslint/no-namespace
-  namespace Express {
-    export interface Request {
-      user?: IToken;
-    }
-  }
+export enum METHODS {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  PATCH = 'PATCH',
+  DELETE = 'DELETE',
 }
 
-export interface IAuthDecorators {
-  permission: string;
+export interface IError {
+  [error: string]: {
+    type: ERRORS;
+    description: string;
+  };
 }
 
-export type TEndpoint = {
-  method: METHODS;
-  endpoint?: string;
-  response?: string;
-  summary?: string;
-  body?: SchemaObject;
-  auth?: boolean | IAuthDecorators;
-  errors?: Array<{ type: ERRORS; description: string }>;
-};
+export interface ICommons {
+  ERRORS: IError;
+  [constant: string]: any;
+}

@@ -36,10 +36,7 @@ export class AuthzService {
           username: dto.username,
           avatar: dto.avatar,
           user: {
-            create: { 
-              socialMedia: {
-                create: {},
-              }, 
+            create: {
               acceptances: {
                 create: [
                   {

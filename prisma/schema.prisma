@@ -13,21 +13,56 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum printerStatus {
+  IDLE
+  PRINTING
+  ERROR
+  MAITENANCE
+  BROKEN
+  FIXING
+}
+
+enum FilamentType {
+  ABS
+  PLA
+  PETG
+  NYLON
+  TPU
+  ASA
+  HIPS
+  PVA
+  WOOD
+  METAL
+  CARBON_FIBER
+  FLEXIBLE
+  GLOW_IN_THE_DARK
+  CONDUCTIVE
+  MAGNETIC
+  FLAME_RETARDANT
+  HIGH_IMPACT_POLYSTYRENE
+  POLYPROPYLENE
+  POLYCARBONATE
+  ACRYLONITRILE_STYRENE_ACROLEIN
+}
+
 model Client {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("client")
+  @@map("clients")
 }
 
 model User {
   id               String               @id @default(auto()) @map("_id") @db.ObjectId
+  username         String               @unique
+  password         String
   createdAt        DateTime             @default(now())
   updatedAt        DateTime             @updatedAt
+  jiraAccess       JiraAccess?
   acceptances      UserAcceptanceInfo[]
   userPersonalInfo UserPersonalInfo?
-  bookmarkedAuthor String[]             @default([]) @db.ObjectId
+  jobs             PrintJob[]
 
   @@map("users")
 }
@@ -89,19 +124,12 @@ model Printer {
   model     String
   location  String
   status    printerStatus @default(IDLE)
+  jobs      PrintJob[]
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
+  warranty  String
 
-  @@map("printer")
-}
-
-enum printerStatus {
-  IDLE
-  PRINTING
-  ERROR
-  MAITENANCE
-  BROKEN
-  FIXING
+  @@map("printers")
 }
 
 model Order {
@@ -109,7 +137,15 @@ model Order {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("order")
+  @@map("orders")
+}
+
+model Artist {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("artists")
 }
 
 model Product {
@@ -117,7 +153,7 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("product")
+  @@map("products")
 }
 
 model RemorePrinterOperator {
@@ -125,15 +161,18 @@ model RemorePrinterOperator {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("remotePrinterOperator")
+  @@map("remotePrinterOperators")
 }
 
 model Material {
-  id        String   @id @default(auto()) @map("_id") @db.ObjectId
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt  DateTime  @default(now())
+  type       String
+  color      String
+  PrintJob   PrintJob? @relation(fields: [printJobId], references: [id])
+  printJobId String?   @db.ObjectId
 
-  @@map("material")
+  @@map("materials")
 }
 
 model Audience {
@@ -144,4 +183,44 @@ model Audience {
   group     String[] @db.ObjectId
 
   @@map("audiences")
+}
+
+model PrintJob {
+  id        String     @id @default(auto()) @map("_id") @db.ObjectId
+  printerId String     @db.ObjectId
+  filename  String
+  userId    String     @db.ObjectId
+  startTime DateTime
+  endTime   DateTime
+  status    String
+  materials Material[]
+  user      User       @relation(fields: [userId], references: [id])
+  printer   Printer    @relation(fields: [printerId], references: [id])
+
+  @@map("printJobs")
+}
+
+model JiraAccess {
+  id                  String @id @default(auto()) @map("_id") @db.ObjectId
+  atllassian_username String
+  atllassian_api_key  String
+  lead_acct_id        String
+  domain              String
+
+  jiraProject JiraProject?
+  user        User?        @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId      String?      @unique @db.ObjectId
+
+  @@map("jiraAccess")
+}
+
+model JiraProject {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  project_key  String
+  project_name String
+
+  jiraAccess   JiraAccess? @relation(fields: [jiraAccessId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  jiraAccessId String?     @unique @db.ObjectId
+
+  @@map("jiraProject")
 }
