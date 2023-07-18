@@ -1,0 +1,147 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider                  = "prisma-erd-generator"
+  theme                     = "dark"
+  includeRelationFromFields = true
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Client {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("client")
+}
+
+model User {
+  id               String               @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt        DateTime             @default(now())
+  updatedAt        DateTime             @updatedAt
+  acceptances      UserAcceptanceInfo[]
+  userPersonalInfo UserPersonalInfo?
+  bookmarkedAuthor String[]             @default([]) @db.ObjectId
+
+  @@map("users")
+}
+
+model UserPersonalInfo {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  email           String   @unique
+  names           String
+  maternalSurname String?
+  paternalSurname String
+  phone           String?
+  age             Int?
+  birthDay        DateTime
+  recoveryEmail   String?
+  country         String?
+  city            String?
+  username        String   @unique
+  avatar          String?
+
+  user   User?   @relation(fields: [userId], references: [id], onUpdate: Cascade, onDelete: Cascade)
+  userId String? @unique @db.ObjectId
+
+  @@map("userPersonalInfo")
+}
+
+model UserAcceptanceInfo {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  acceptance   Acceptance @relation(fields: [acceptanceId], references: [id])
+  acceptanceId String     @db.ObjectId
+
+  accepted Boolean
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @db.ObjectId
+
+  @@map("userAcceptanceInfo")
+}
+
+model Acceptance {
+  id                 String               @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt          DateTime             @default(now())
+  updatedAt          DateTime             @updatedAt
+  title              String
+  template           String
+  version            String
+  userAcceptanceInfo UserAcceptanceInfo[]
+
+  @@map("acceptances")
+}
+
+model Printer {
+  id        String        @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  model     String
+  location  String
+  status    printerStatus @default(IDLE)
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  @@map("printer")
+}
+
+enum printerStatus {
+  IDLE
+  PRINTING
+  ERROR
+  MAITENANCE
+  BROKEN
+  FIXING
+}
+
+model Order {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("order")
+}
+
+model Product {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("product")
+}
+
+model RemorePrinterOperator {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("remotePrinterOperator")
+}
+
+model Material {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("material")
+}
+
+model Audience {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  title     String
+  group     String[] @db.ObjectId
+
+  @@map("audiences")
+}

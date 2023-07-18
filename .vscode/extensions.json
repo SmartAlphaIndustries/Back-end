@@ -1,0 +1,25 @@
+/* TODO: Move to dev container */
+
+{
+    "recommendations": [
+      "ms-azuretools.vscode-docker",
+      "gruntfuggly.todo-tree",
+      "mhutchie.git-graph",
+      "donjayamanne.githistory",
+      "ms-vsliveshare.vsliveshare",
+      "ms-vsliveshare.vsliveshare-pack",
+      "waderyan.gitblame",
+      "eamodio.gitlens",
+      "github.copilot",
+      "github.remotehub",
+      "github.vscode-pull-request-github",
+      "cschleiden.vscode-github-actions",
+      "oderwat.indent-rainbow",
+      "pkief.material-icon-theme",
+      "ms-vscode-remote.remote-ssh",
+      "ms-vscode-remote.remote-containers",
+      "ms-vscode.remote-repositories",
+      "foxundermoon.shell-format"
+    ]
+  }
+  
