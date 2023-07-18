@@ -6,6 +6,7 @@ export enum ERRORS {
   forbidden = 'forbidden',
   badRequest = 'badRequest',
   notacceptable = 'notacceptable',
+  notfoundname = 'notfoundname',
 }
 
 export enum METHODS {

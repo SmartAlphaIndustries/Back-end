@@ -1,11 +1,17 @@
 import { User } from '@prisma/client';
 import { UserDto } from '../dto';
 
-export const userStub = (): User => ({
+//TODO: User type schema
+export const userStub = (): any => ({
   id: '630eeb6514dd9b6a47da0130',
   createdAt: new Date('2022-08-31T05:02:29.722Z'),
   updatedAt: new Date('2022-08-31T05:02:29.722Z'),
-  bookmarkedAuthor: [],
+  username: 'Pikashaman',
+  password: 'SmartAlphaIsGod',
+  /* acceptances: ['630eeb6514dd9b6a47da0130', '630eeb6514dd9b6a47da0130'], */
+  userPersonalInfo: '630eeb6514dd9b6a47da0130',
+  jiraAccess: true,
+  jobs: ['630eeb6514dd9b6a47da0130', '630eeb6514dd9b6a47da0130'],
 });
 
 export const userGetOrDeleteStub = (): Partial<User> => ({

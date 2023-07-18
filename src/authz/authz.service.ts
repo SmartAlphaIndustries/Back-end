@@ -35,7 +35,7 @@ export class AuthzService {
           city: dto.city,
           username: dto.username,
           avatar: dto.avatar,
-          user: {
+          /* user: {
             create: {
               acceptances: {
                 create: [
@@ -46,7 +46,7 @@ export class AuthzService {
                 ],
               },
             },
-          },
+          }, */
         },
       });
 
