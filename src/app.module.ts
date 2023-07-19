@@ -5,6 +5,7 @@ import { AuthzModule } from './authz/authz.module';
 import { ORMModule } from './orm/orm.module';
 import { UserModule } from './user/user.module';
 import { AcceptanceModule } from './acceptance/acceptance.module';
+import { RemotePrinterOperatorModule } from './remote-printer-operator/remote-printer-operator.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -42,6 +43,7 @@ import configuration from './config/configuration';
     ORMModule,
     UserModule,
     AcceptanceModule,
+    RemotePrinterOperatorModule,
   ],
   controllers: [],
   providers: [],
